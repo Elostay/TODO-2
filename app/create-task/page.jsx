@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
+import { BASE_URL } from "@constants";
 
 const CreateTask = () => {
   const router = useRouter();
@@ -15,19 +16,24 @@ const CreateTask = () => {
     done: false,
     rate: 1,
   });
+  const createTaskApi = `${BASE_URL}/todos`;
+
   const createTask = async (e) => {
     e.preventDefault();
     setSubmitting(true);
 
     try {
-      const response = await fetch("/api/task/new", {
+      console.log(post);
+      const response = await fetch(createTaskApi, {
         method: "POST",
         body: JSON.stringify({
-          task: post.task,
-
           done: post.done,
           rate: post.rate,
+          task: post.task,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {

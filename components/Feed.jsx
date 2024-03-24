@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import FilterButtons from "./FilterButtons";
 
 import TodoList from "./TodoList";
+import { BASE_URL } from "@constants";
+import Cors from "cors";
+import initMiddleware from "@helpers/init-middleware";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const Feed = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,8 +21,15 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
+  const getAllTasks = `${BASE_URL}/tasks/`;
+
   const fetchTasks = async () => {
-    const response = await fetch("/api/task");
+    const response = await fetch(getAllTasks, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await response.json();
 
     setTasks(data);
@@ -30,7 +41,7 @@ const Feed = () => {
 
   const filterTasks = (searchText) => {
     const regex = new RegExp(searchText, "i");
-
+    if (tasks.detail) return;
     return tasks.filter((item) => regex.test(item.task));
   };
 
@@ -51,40 +62,42 @@ const Feed = () => {
     setActiveBtn(index);
     const nameBtn = e.target.name;
 
-    switch (nameBtn) {
-      case "all":
-        setSearchText("");
-        await fetchTasks();
-        setFilteredStatus(tasks);
-        break;
-      case "completed":
-        setSearchText("");
-        await fetchTasks();
-        const completedTasks = tasks.filter((task) => task.done === true);
-        setFilteredStatus(completedTasks);
-        break;
-      case "active":
-        setSearchText("");
-        await fetchTasks();
-        const activeTasks = tasks.filter((task) => task.done === false);
-        setFilteredStatus(activeTasks);
-        break;
-      case "sort":
-        searchText !== "" && ascending
-          ? searchedResults.sort((a, b) => a.rate - b.rate)
-          : searchedResults.sort((a, b) => b.rate - a.rate);
-        ascending && tasks.length !== 0
-          ? tasks.sort((a, b) => a.rate - b.rate)
-          : tasks.sort((a, b) => b.rate - a.rate);
-        ascending && filteredStatus.length !== 0
-          ? filteredStatus.sort((a, b) => a.rate - b.rate)
-          : filteredStatus.sort((a, b) => b.rate - a.rate);
+    if (tasks.length > 0) {
+      switch (nameBtn) {
+        case "all":
+          setSearchText("");
+          await fetchTasks();
+          setFilteredStatus(tasks);
+          break;
+        case "completed":
+          setSearchText("");
+          await fetchTasks();
+          const completedTasks = tasks.filter((task) => task.done === true);
+          setFilteredStatus(completedTasks);
+          break;
+        case "active":
+          setSearchText("");
+          await fetchTasks();
+          const activeTasks = tasks.filter((task) => task.done === false);
+          setFilteredStatus(activeTasks);
+          break;
+        case "sort":
+          searchText !== "" && ascending
+            ? searchedResults.sort((a, b) => a.rate - b.rate)
+            : searchedResults.sort((a, b) => b.rate - a.rate);
+          ascending && tasks.length !== 0
+            ? tasks.sort((a, b) => a.rate - b.rate)
+            : tasks.sort((a, b) => b.rate - a.rate);
+          ascending && filteredStatus.length !== 0
+            ? filteredStatus.sort((a, b) => a.rate - b.rate)
+            : filteredStatus.sort((a, b) => b.rate - a.rate);
 
-        setAscending((prev) => !prev);
-        break;
-      default:
-        break;
-    }
+          setAscending((prev) => !prev);
+          break;
+        default:
+          break;
+      }
+    } else return;
   };
   return (
     <section className="feed">

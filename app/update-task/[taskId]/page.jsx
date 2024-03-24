@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
+import { BASE_URL } from "@constants";
 
 const EditTask = ({ params: { taskId } }) => {
   const router = useRouter();
@@ -12,15 +13,19 @@ const EditTask = ({ params: { taskId } }) => {
   const [post, setPost] = useState({
     task: "",
     rate: 1,
+    done: false,
   });
 
   useEffect(() => {
     const getTaskDetails = async () => {
-      const response = await fetch(`/api/task/${taskId}`);
+      const task = `${BASE_URL}/tasks/${taskId}`;
+
+      const response = await fetch(task);
       const data = await response.json();
       setPost({
         task: data.task,
         rate: data.rate,
+        done: data.done,
       });
     };
 
@@ -32,14 +37,19 @@ const EditTask = ({ params: { taskId } }) => {
     setSubmitting(true);
 
     if (!taskId) return alert("Task ID not found");
+    const patchTask = `${BASE_URL}/tasks/${taskId}`;
 
     try {
-      const response = await fetch(`/api/task/${taskId}`, {
+      const response = await fetch(patchTask, {
         method: "PATCH",
         body: JSON.stringify({
           task: post.task,
           rate: post.rate,
+          done: post.done,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {

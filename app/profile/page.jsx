@@ -5,14 +5,22 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import TodoList from "@components/TodoList";
+import { BASE_URL } from "@constants";
 
 const Profile = () => {
   const router = useRouter();
 
   const [tasks, setTasks] = useState([]);
 
+  const getAllTasks = `${BASE_URL}/tasks/`;
+
   const fetchTasks = async () => {
-    const response = await fetch(`/api/task`);
+    const response = await fetch(getAllTasks, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const data = await response.json();
 
@@ -25,13 +33,19 @@ const Profile = () => {
 
   const handleDone = async (task) => {
     if (!task._id) return alert("Task ID not found");
-
+    const patchTask = `${BASE_URL}/tasks/${task._id}`;
     try {
-      await fetch(`/api/task/${task._id}/done`, {
+      console.log(task);
+      await fetch(patchTask, {
         method: "PATCH",
         body: JSON.stringify({
           done: !task.done,
+          task: task.task,
+          rate: task.rate,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       await fetchTasks();
     } catch (error) {
@@ -45,10 +59,11 @@ const Profile = () => {
 
   const handleDelete = async (task) => {
     const hasConfirmed = confirm("Are you sure you want to delete this task?");
+    const deleteTask = `${BASE_URL}/tasks/${task._id.toString()}`;
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/task/${task._id.toString()}`, {
+        await fetch(deleteTask, {
           method: "DELETE",
         });
 

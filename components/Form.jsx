@@ -59,12 +59,19 @@ const Form = ({ type, task, setTask, submitting, handleSubmit }) => {
         className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
       >
         <label>
-          <span
+          <div
             className="font-satoshi font-semibold
-			 text-base text-gray-700"
+			 text-base text-gray-700 flex items-center justify-between"
           >
-            Your Task
-          </span>
+            <p>Your Task</p>
+            <input
+              className="w-8 h-8 p-2"
+              type="checkbox"
+              checked={task.done || false}
+              //   onChange={handleDone}
+              onChange={(e) => setTask({ ...task, done: e.target.checked })}
+            />
+          </div>
           <textarea
             value={task.task}
             onChange={(e) => setTask({ ...task, task: e.target.value })}
@@ -91,7 +98,6 @@ const Form = ({ type, task, setTask, submitting, handleSubmit }) => {
             </button>
           ))}
         </div>
-
         <div className="flex-end mx-3 mb-5 gap-4">
           <Link href="/" className="text-gray-500 text-sm">
             Cancel
