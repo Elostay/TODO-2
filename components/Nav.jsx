@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import LogoImg from "@public/logo.svg";
+import UserDefaultPhoto from "@public/user-default-photo.svg";
 
 const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -10,13 +12,15 @@ const Nav = () => {
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
-        <Image
+        {/* <Image
           src="/assets/images/logo.svg"
           alt="Todolist Logo"
           width={60}
           height={60}
           className="object-contain"
-        />
+        /> */}
+
+        <Image width={60} height={60} src={LogoImg} alt="note" />
         <p className="logo_text">TodoBestie</p>
       </Link>
 
@@ -29,7 +33,7 @@ const Nav = () => {
 
           <Link href="/profile">
             <Image
-              src="/assets/images/user-default-photo.png"
+              src={UserDefaultPhoto}
               width={37}
               height={37}
               className="rounded-full"
@@ -42,7 +46,7 @@ const Nav = () => {
       <div className="sm:hidden flex relative">
         <div className="flex">
           <Image
-            src="/assets/images/user-default-photo.png"
+            src={UserDefaultPhoto}
             width={37}
             height={37}
             className="rounded-full"

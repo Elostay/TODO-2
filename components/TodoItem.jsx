@@ -1,5 +1,6 @@
 import Image from "next/image";
 import handleColor from "@helpers/handleColor";
+import UserDefaultPhoto from "@public/user-default-photo.svg";
 
 const TodoItem = ({ task, handleEdit, handleDelete, handleDone, profile }) => {
   return (
@@ -7,7 +8,7 @@ const TodoItem = ({ task, handleEdit, handleDelete, handleDone, profile }) => {
       <div className="flex justify-between items-start gap-5">
         <div className="flex-1 flex justify-start items-center gap-3 ">
           <Image
-            src="/assets/images/user-default-photo.png"
+            src={UserDefaultPhoto}
             alt="user_image"
             width={40}
             height={40}
