@@ -14,6 +14,6 @@
 // };
 // pages/api/example.js
 
-import corsHandler from "@helpers/corsHandler";
+// import corsHandler from "@helpers/corsHandler";
 
-export default handler;
+// export default handler;

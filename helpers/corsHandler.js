@@ -6,6 +6,7 @@ const cors = initMiddleware(
   Cors({
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     origin: "todo-2-five.vercel.app",
+    //  origin: "http://localhost:3000",
     credentials: true,
   })
 );
