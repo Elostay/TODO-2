@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import Form from "@components/Form";
 import { BASE_URL } from "@constants";
 
@@ -19,7 +18,6 @@ const EditTask = ({ params: { taskId } }) => {
   useEffect(() => {
     const getTaskDetails = async () => {
       const task = `${BASE_URL}/tasks/${taskId}`;
-
       const response = await fetch(task);
       const data = await response.json();
       setPost({
