@@ -16,14 +16,13 @@ const CreateTask = () => {
     done: false,
     rate: 1,
   });
-  const createTaskApi = `${BASE_URL}/todos`;
+  const createTaskApi = `${BASE_URL}/todos/`;
 
   const createTask = async (e) => {
     e.preventDefault();
     setSubmitting(true);
 
     try {
-      console.log(post);
       const response = await fetch(createTaskApi, {
         method: "POST",
         body: JSON.stringify({
