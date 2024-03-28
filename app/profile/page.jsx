@@ -23,6 +23,7 @@ const Profile = () => {
     });
 
     const data = await response.json();
+    console.log("💖 ~ fetchTasks ~ data:", data);
 
     setTasks(data);
   };
@@ -35,7 +36,6 @@ const Profile = () => {
     if (!task._id) return alert("Task ID not found");
     const patchTask = `${BASE_URL}/tasks/${task._id}`;
     try {
-      console.log(task);
       await fetch(patchTask, {
         method: "PATCH",
         body: JSON.stringify({

@@ -73,12 +73,14 @@ const Feed = () => {
           setSearchText("");
           await fetchTasks();
           const completedTasks = tasks.filter((task) => task.done === true);
+          console.log("💖 ~ handleFilterBtn ~ completedTasks:", completedTasks);
           setFilteredStatus(completedTasks);
           break;
         case "active":
           setSearchText("");
           await fetchTasks();
           const activeTasks = tasks.filter((task) => task.done === false);
+          console.log("💖 ~ handleFilterBtn ~ activeTasks:", activeTasks);
           setFilteredStatus(activeTasks);
           break;
         case "sort":
