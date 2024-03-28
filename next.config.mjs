@@ -39,7 +39,8 @@
 // export default nextConfig;
 const nextConfig = {
   basePath: "",
-  output: "export",
+  //   output: "export",
+  reactStrictMode: true,
   images: {
     deviceSizes: [320, 640, 768, 1024, 1280],
     imageSizes: [16, 32, 48, 60, 64, 96],

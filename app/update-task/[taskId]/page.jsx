@@ -18,6 +18,7 @@ const EditTask = ({ params: { taskId } }) => {
   useEffect(() => {
     const getTaskDetails = async () => {
       const task = `${BASE_URL}/tasks/${taskId}`;
+      console.log("💖 ~ EditTask ~ taskId:", taskId);
       const response = await fetch(task);
       const data = await response.json();
       setPost({
